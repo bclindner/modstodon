@@ -38,7 +38,8 @@ export default class Post extends React.Component {
           )}
           {showCW && <HTMLView value={data.content} />}
           <Caption>
-            {moment(data.created_at, moment.ISO_8601).fromNow()} - {data.visibility}
+            {moment(data.created_at, moment.ISO_8601).fromNow()} -{" "}
+            {data.visibility}
           </Caption>
         </Card.Content>
         <Card.Actions>

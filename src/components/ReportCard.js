@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Card, Paragraph, Avatar, Caption } from "react-native-paper";
-import moment from "moment"
+import moment from "moment";
 
 const ReportCard = ({ report, onPress }) => (
   <Card
@@ -10,7 +10,10 @@ const ReportCard = ({ report, onPress }) => (
     style={styles.reportCard}
     onPress={() => onPress(report.item.id)}
   >
-    <Card.Title title={report.item.target_account.account.acct} subtitle={`Report #${report.item.id}`} />
+    <Card.Title
+      title={report.item.target_account.account.acct}
+      subtitle={`Report #${report.item.id}`}
+    />
     <Card.Content>
       <View style={styles.reportAvatar}>
         <View>
@@ -21,7 +24,9 @@ const ReportCard = ({ report, onPress }) => (
         <View style={styles.reportContent}>
           <Paragraph style={styles.truncate}>{report.item.comment}</Paragraph>
           <Caption>Reported by {report.item.account.account.acct}</Caption>
-          <Caption>({moment(report.item.created_at, moment.ISO_8601).format("llll")})</Caption>
+          <Caption>
+            ({moment(report.item.created_at, moment.ISO_8601).format("llll")})
+          </Caption>
         </View>
       </View>
     </Card.Content>

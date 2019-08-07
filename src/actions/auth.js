@@ -1,6 +1,6 @@
 import {
   registerApp as _registerApp,
-  requestAccessToken as _requestAccessToken
+  getAccessToken as _getAccessToken
 } from "../utils/API";
 
 /**
@@ -14,6 +14,7 @@ export const registerApp = instanceURL => async dispatch => {
     const { client_id, client_secret } = await _registerApp(instanceURL);
     dispatch(receiveAppCredentials(instanceURL, client_id, client_secret));
   } catch (err) {
+    console.error(err)
     // Signal error in the store
     dispatch(oauthError(err));
   }
@@ -39,15 +40,17 @@ export const receiveAppCredentials = (
 export const getAccessToken = code => async (dispatch, getState) => {
   dispatch(requestAccessToken());
   try {
-    const { client_id, client_secret, instanceURL } = getState();
+    const { client_id, client_secret, instanceURL } = getState().auth;
     const { access_token } = await _getAccessToken(
       instanceURL,
       client_id,
       client_secret,
       code
     );
+    console.log(access_token)
     dispatch(receiveAccessToken(access_token));
   } catch (err) {
+    console.error(err)
     dispatch(oauthError(err));
   }
 };
@@ -59,7 +62,7 @@ export const requestAccessToken = () => ({
 
 export const RECEIVE_ACCESS_TOKEN = "auth/RECEIVE_ACCESS_TOKEN";
 export const receiveAccessToken = access_token => ({
-  type: RECEIVE_APP_CREDENTIALS,
+  type: RECEIVE_ACCESS_TOKEN,
   access_token
 });
 

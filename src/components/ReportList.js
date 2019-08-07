@@ -4,60 +4,58 @@ import { Headline, Caption, Appbar } from "react-native-paper";
 
 import ReportCard from "../components/ReportCard";
 
-export default class ReportList extends React.Component {
-  static navigationOptions = {
-    title: "Reports",
-    headerRight: (
-      <>
-        <Appbar.Action icon="eject" title="Logout" />
-      </>
-    )
-  };
-
-  state = {
-    refreshing: false
-  };
-
-  reloadReports = async () => {
-    this.setState(state => ({ ...state, refreshing: true }));
-    await this.props.getMoreReports({ reload: true })
-    this.setState(state => ({ ...state, refreshing: false }))
-  };
-
-  componentDidMount() {
-    this.refreshReports();
+const ReportList = ({
+  refreshing,
+  reports,
+  getReports,
+  clearReports,
+  selectReport,
+  navigation
+}) => {
+  const openReport = id => {
+    selectReport(id);
+    navigation.navigate("Report");
   }
-
-  render() {
-    return (
-      <FlatList
-        contentContainerStyle={styles.report}
-        data={this.props.reports}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.reloadReports}
-          />
-        }
-        keyExtractor={report => report.id + "_reportcard"}
-        renderItem={report => (
-          <ReportCard
-            onPress={id =>
-              this.props.navigation.navigate("Report", { reportID: id })
-            }
-            report={report}
-          />
-        )}
-        ListEmptyComponent={
-          <>
-            <Headline style={styles.noreports}>No reports!</Headline>
-            <Caption style={styles.noreports}>Pull to refresh</Caption>
-          </>
-        }
-      />
-    );
-  }
-}
+  return (
+    <FlatList
+      contentContainerStyle={styles.report}
+      data={reports}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => {
+            clearReports(); // sync
+            getReports(); // async
+            // should be safe
+          }}
+        />
+      }
+      keyExtractor={report => report.id + "_reportcard"}
+      renderItem={report => (
+        <ReportCard
+          onPress={() => openReport(report.index)}
+          report={report}
+        />
+      )}
+      ListEmptyComponent={!refreshing &&
+        <>
+          <Headline style={styles.noreports}>No reports!</Headline>
+          <Caption style={styles.noreports}>Pull to refresh</Caption>
+        </>
+      }
+      onEndReachedThreshold={0.6}
+      onEndReached={() => getReports(reports[reports.length - 1].id)}
+    />
+  );
+};
+ReportList.navigationOptions = {
+  title: "Reports",
+  headerRight: (
+    <>
+      <Appbar.Action icon="eject" title="Logout" />
+    </>
+  )
+};
 
 const styles = StyleSheet.create({
   report: {
@@ -68,3 +66,5 @@ const styles = StyleSheet.create({
     paddingTop: 16
   }
 });
+
+export default ReportList;

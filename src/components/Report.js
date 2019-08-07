@@ -6,7 +6,8 @@ import {
   Button,
   DataTable,
   Subheading,
-  Caption
+  Caption,
+  Headline
 } from "react-native-paper";
 
 import Post from "../components/Post";
@@ -20,14 +21,11 @@ const defaultModDialogProps = {
 };
 
 export default class Report extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: "Report #" + navigation.state.params.reportID
-  });
+  static navigationOptions = {
+    title: "Report"
+  };
 
   state = {
-    status: "loading",
-    errorMessage: "",
-    report: {},
     dialog: defaultModDialogProps
   };
 
@@ -44,8 +42,8 @@ export default class Report extends React.Component {
           message: true,
           onConfirm: msg =>
             this.props.performAction(
-              "none",
               this.props.report.target_account.account.id,
+              "none",
               this.props.report.id,
               msg
             )
@@ -58,8 +56,8 @@ export default class Report extends React.Component {
           message: false,
           onConfirm: () =>
             this.props.performAction(
-              "disable",
               this.props.report.target_account.account.id,
+              "disable",
               this.props.report.id
             )
         };
@@ -71,8 +69,8 @@ export default class Report extends React.Component {
           message: false,
           onConfirm: () =>
             this.props.performAction(
-              "silence",
               this.props.report.target_account.account.id,
+              "silence",
               this.props.report.id
             )
         };
@@ -84,8 +82,8 @@ export default class Report extends React.Component {
           message: true,
           onConfirm: msg =>
             this.props.performAction(
-              "suspend",
               this.props.report.target_account.account.id,
+              "suspend",
               this.props.report.id,
               msg
             )
@@ -98,21 +96,21 @@ export default class Report extends React.Component {
     this.setState(state => ({ ...state, dialog }));
   };
 
-  performAction = async (
-    type,
-    text = undefined,
-    sendEmailNotification = undefined
-  ) => {
+  performAction = async (type, text, sendEmailNotification) => {
     await takeAction(type, text, sendEmailNotification);
     this.props.navigation.goBack();
   };
 
   render() {
     const { dialog } = this.state;
-    const { report } = this.props
+    const { report } = this.props;
+    if (!report) {
+      return null;
+    }
     return (
       <View style={styles.root}>
         <ScrollView style={styles.report}>
+          <Headline>Report #{report.id}</Headline>
           <DataTable>
             <DataTable.Row>
               <DataTable.Title>Reported account</DataTable.Title>
@@ -122,9 +120,7 @@ export default class Report extends React.Component {
             </DataTable.Row>
             <DataTable.Row>
               <DataTable.Title>Reported by</DataTable.Title>
-              <DataTable.Cell>
-                @{report.account.account.acct}
-              </DataTable.Cell>
+              <DataTable.Cell>@{report.account.account.acct}</DataTable.Cell>
             </DataTable.Row>
             <DataTable.Row>
               <DataTable.Title>Status</DataTable.Title>
@@ -139,7 +135,6 @@ export default class Report extends React.Component {
             <Caption>Reported on {report.created_at}</Caption>
           </Card.Content>
           {report.statuses.length > 0 && (
-
             <>
               <Subheading>Reported posts:</Subheading>
               {report.statuses.map(status => (
@@ -156,28 +151,28 @@ export default class Report extends React.Component {
                   onPress={() => this.stageAction("warn")}
                 >
                   Warn
-                    </Button>
+                </Button>
                 <Button
                   mode="contained"
                   style={styles.reportAction}
                   onPress={() => this.stageAction("disable")}
                 >
                   Disable
-                    </Button>
+                </Button>
                 <Button
                   mode="contained"
                   style={styles.reportAction}
                   onPress={() => this.stageAction("silence")}
                 >
                   Silence
-                    </Button>
+                </Button>
                 <Button
                   mode="contained"
                   style={styles.reportAction}
                   onPress={() => this.stageAction("suspend")}
                 >
                   Suspend
-                    </Button>
+                </Button>
               </>
             )}
           </View>

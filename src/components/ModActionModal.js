@@ -8,8 +8,14 @@ import {
   Button
 } from "react-native-paper";
 
-const ModActionModal = ({ visible, actionName, message, onDismiss, onConfirm }) => {
-  [value, setValue] = useState("")
+const ModActionModal = ({
+  visible,
+  actionName,
+  message,
+  onDismiss,
+  onConfirm
+}) => {
+  [value, setValue] = useState("");
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={onDismiss}>
@@ -26,8 +32,8 @@ const ModActionModal = ({ visible, actionName, message, onDismiss, onConfirm }) 
               />
             </>
           ) : (
-              <Paragraph>Do you wish to {actionName} this user? </Paragraph>
-            )}
+            <Paragraph>Do you wish to {actionName} this user? </Paragraph>
+          )}
         </Dialog.Content>
         <Dialog.Actions>
           <Button
@@ -36,15 +42,15 @@ const ModActionModal = ({ visible, actionName, message, onDismiss, onConfirm }) 
             onPress={() => onConfirm(value)}
           >
             Confirm
-            </Button>
+          </Button>
           <Button style={styles.button} onPress={() => onDismiss()}>
             Cancel
-            </Button>
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>
   );
-}
+};
 ModActionModal.defaultProps = {
   visible: false,
   actionName: "...",
@@ -60,4 +66,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ModActionModal
+export default ModActionModal;

@@ -22,7 +22,7 @@ const OAuthAuthorize = ({
           if (nav.url.startsWith(OAUTH_REDIRECT_URI)) {
             const code = url.parse(nav.url, true).query.code;
             handleAuthCode(code);
-            navigation.navigate("AuthLoading");
+            navigation.navigate("App");
             return false;
           }
         }}
@@ -30,20 +30,20 @@ const OAuthAuthorize = ({
           uri: url.resolve(
             instanceURL,
             "/oauth/authorize?" +
-            qs.stringify({
-              client_id,
-              response_type: "code",
-              redirect_uri: OAUTH_REDIRECT_URI,
-              scope: OAUTH_SCOPES
-            })
+              qs.stringify({
+                client_id,
+                response_type: "code",
+                redirect_uri: OAUTH_REDIRECT_URI,
+                scope: OAUTH_SCOPES
+              })
           )
         }}
       />
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 OAuthAuthorize.propTypes = {
   // Instance URL to go to for authorization.
   instanceURL: PT.string.isRequired,

@@ -1,48 +1,68 @@
-import React from 'react'
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation'
-import { Provider as PaperProvider } from 'react-native-paper'
-import { Provider as ReduxProvider } from 'react-redux'
+import React from "react";
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator
+} from "react-navigation";
+import { Provider as PaperProvider, Appbar } from "react-native-paper";
+import { Provider as ReduxProvider } from "react-redux";
 
-import store from './store'
-import AuthLoading from './src/containers/AuthLoading'
-import InstanceURLDialog from './src/containers/InstanceURLDialog'
-import OAuthAuthorize from './src/containers/OAuthAuthorize'
+import store, { persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import AuthLoading from "./src/containers/AuthLoading";
+import InstanceURLDialog from "./src/containers/InstanceURLDialog";
+import OAuthAuthorize from "./src/containers/OAuthAuthorize";
+import ReportList from "./src/containers/ReportList"
+import Report from "./src/containers/Report"
 
-/*
-const AppNavigator = createStackNavigator({
-  ReportsList,
-  Report
-}, {
-    initialRouteName: "ReportsList"
-  })
-*/
-
-const AuthNavigator = createStackNavigator({
-  InstanceURLDialog,
-  OAuthAuthorize,
-}, {
-    initialRouteName: "InstanceURLDialog"
-  })
-
-const MainNavigator = createSwitchNavigator({
-  AuthLoading,
-  // App: AppNavigator,
-  Auth: AuthNavigator
-},
+const AppNavigator = createStackNavigator(
   {
-    initialRouteName: "AuthLoading"
-  })
+    ReportList,
+    Report
+  },
+  {
+    initialRouteName: "ReportList"
+  }
+);
 
-const AppContainer = createAppContainer(MainNavigator)
+const AuthNavigator = createStackNavigator(
+  {
+    InstanceURLDialog,
+    OAuthAuthorize
+  },
+  {
+    initialRouteName: "InstanceURLDialog"
+  }
+);
+
+const MainNavigator = createSwitchNavigator(
+  {
+    AuthLoading,
+    App: AppNavigator,
+    Auth: AuthNavigator
+  },
+  {
+    initialRouteName: "AuthLoading",
+    header: (
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+      </Appbar.Header>
+    )
+  }
+);
+
+const AppContainer = createAppContainer(MainNavigator);
 
 export default class App extends React.Component {
   render() {
     return (
       <ReduxProvider store={store}>
         <PaperProvider>
-          <AppContainer />
+          <PersistGate loading={null} persistor={persistor}>
+            <AppContainer />
+          </PersistGate>
         </PaperProvider>
       </ReduxProvider>
-    )
+    );
   }
 }
