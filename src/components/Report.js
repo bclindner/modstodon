@@ -42,9 +42,7 @@ export default class Report extends React.Component {
           message: true,
           onConfirm: msg =>
             this.props.performAction(
-              this.props.report.target_account.account.id,
               "none",
-              this.props.report.id,
               msg
             )
         };
@@ -56,9 +54,7 @@ export default class Report extends React.Component {
           message: false,
           onConfirm: () =>
             this.props.performAction(
-              this.props.report.target_account.account.id,
-              "disable",
-              this.props.report.id
+              "disable"
             )
         };
         break;
@@ -68,10 +64,8 @@ export default class Report extends React.Component {
           actionName: "silence",
           message: false,
           onConfirm: () =>
-            this.props.performAction(
-              this.props.report.target_account.account.id,
-              "silence",
-              this.props.report.id
+            this.performAction(
+              "silence"
             )
         };
         break;
@@ -81,10 +75,8 @@ export default class Report extends React.Component {
           actionName: "suspend",
           message: true,
           onConfirm: msg =>
-            this.props.performAction(
-              this.props.report.target_account.account.id,
+            this.performAction(
               "suspend",
-              this.props.report.id,
               msg
             )
         };
@@ -97,7 +89,13 @@ export default class Report extends React.Component {
   };
 
   performAction = async (type, text, sendEmailNotification) => {
-    await takeAction(type, text, sendEmailNotification);
+    await performAction(
+      this.props.report.target_account.account.id,
+      type,
+      this.props.report.id,
+      text,
+      sendEmailNotification
+    );
     this.props.navigation.goBack();
   };
 
@@ -143,7 +141,7 @@ export default class Report extends React.Component {
             </>
           )}
           <View style={styles.reportActions}>
-            {report.actionTaken && (
+            {!report.action_taken && (
               <>
                 <Button
                   mode="contained"

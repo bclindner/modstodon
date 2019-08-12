@@ -29,13 +29,15 @@ export default class Post extends React.Component {
   render() {
     const { showCW } = this.state;
     const { data } = this.props;
-    console.log(data);
     return (
       <Card elevation={2} style={styles.card}>
         <Card.Content>
+          <Paragraph styles={styles.cw}>
           {data.spoiler_text && (
-            <Paragraph style={styles.cw}>CW: {data.spoiler_text}</Paragraph>
+            `CW: ${data.spoiler_text}`
           )}
+
+          </Paragraph>
           {showCW && <HTMLView value={data.content} />}
           <Caption>
             {moment(data.created_at, moment.ISO_8601).fromNow()} -{" "}

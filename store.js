@@ -25,5 +25,5 @@ export const persistor = persistStore(store)
 export default store;
 
 store.subscribe(() => {
-  console.log(store.getState())
+  console.log("state", store.getState())
 })

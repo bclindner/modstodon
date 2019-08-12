@@ -2,7 +2,7 @@ import axios from "axios";
 import url from "url";
 
 export const OAUTH_CLIENT_NAME = "Modstodon";
-export const OAUTH_REDIRECT_URI = "modstodon://redirect";
+export const OAUTH_REDIRECT_URI = "com.bclindner.modstodon://redirect";
 export const OAUTH_SCOPES = "admin:read admin:write";
 export const OAUTH_WEBSITE = "https://github.com/bclindner/modstodon";
 
@@ -38,7 +38,7 @@ export const getReports = async (
   token,
   max_id,
   limit = 10,
-  resolved = true
+  resolved
 ) =>
   (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports"), {
     params: {

@@ -1,4 +1,6 @@
 import React from "react";
+import { View } from "react-native";
+import { Headline, Caption, ActivityIndicator } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import PT from "prop-types";
 import url from "url";
@@ -13,15 +15,21 @@ const OAuthAuthorize = ({
   handleAuthCode,
   client_id,
   instanceURL,
+  error,
+  loading,
   navigation
 }) => {
-  if (client_id && instanceURL) {
+  if (client_id && instanceURL && !error && !loading) {
     return (
       <WebView
+        ref={ref => {
+          this.webview = ref;
+        }}
         onNavigationStateChange={async nav => {
           if (nav.url.startsWith(OAUTH_REDIRECT_URI)) {
             const code = url.parse(nav.url, true).query.code;
             handleAuthCode(code);
+            this.webview.stopLoading();
             navigation.navigate("App");
             return false;
           }
@@ -40,8 +48,19 @@ const OAuthAuthorize = ({
         }}
       />
     );
+  } else if (error && !loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Headline>Error!</Headline>
+        <Caption>Failed authorization - bad instance URL?</Caption>
+      </View>
+    );
   } else {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator animating={true} />
+      </View>
+    );
   }
 };
 OAuthAuthorize.propTypes = {

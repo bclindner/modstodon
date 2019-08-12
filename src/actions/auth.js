@@ -14,7 +14,6 @@ export const registerApp = instanceURL => async dispatch => {
     const { client_id, client_secret } = await _registerApp(instanceURL);
     dispatch(receiveAppCredentials(instanceURL, client_id, client_secret));
   } catch (err) {
-    console.error(err)
     // Signal error in the store
     dispatch(oauthError(err));
   }
@@ -47,7 +46,6 @@ export const getAccessToken = code => async (dispatch, getState) => {
       client_secret,
       code
     );
-    console.log(access_token)
     dispatch(receiveAccessToken(access_token));
   } catch (err) {
     console.error(err)

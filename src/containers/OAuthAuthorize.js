@@ -4,7 +4,9 @@ import { getAccessToken } from "../actions/auth";
 
 const mapStateToProps = state => ({
   client_id: state.auth.client_id,
-  instanceURL: state.auth.instanceURL
+  instanceURL: state.auth.instanceURL,
+  error: state.auth.error,
+  loading: state.auth.loading
 });
 
 const mapDispatchToProps = dispatch => ({
