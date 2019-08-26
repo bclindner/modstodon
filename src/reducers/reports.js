@@ -7,12 +7,14 @@ import {
   SELECT_REPORT,
   CLEAR_REPORTS
 } from "../actions/reports";
+import moment from 'moment';
 
 const initialState = {
   reports: [],
   selectedReport: 0,
   loading: false,
-  error: ""
+  error: "",
+  lastUpdated: "1970-01-01T00:00:00.000Z"
 };
 
 export default function reports(state = initialState, action) {
@@ -47,7 +49,8 @@ export default function reports(state = initialState, action) {
             return reports;
           }, state.reports)
           .sort(sortReportsById),
-        loading: false
+        loading: false,
+        lastUpdated: moment().toISOString()
       };
     case RECEIVE_REPORT:
       let reports = state.reports;

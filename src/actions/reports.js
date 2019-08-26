@@ -9,7 +9,6 @@ export const getReports = (max_id, limit) => async (dispatch, getState) => {
   const { instanceURL, access_token } = getState().auth;
   try {
     const reports = await _getReports(instanceURL, access_token, max_id, limit);
-    console.log(reports);
     dispatch(receiveReports(reports));
   } catch (err) {
     dispatch(reportFetchError(err));

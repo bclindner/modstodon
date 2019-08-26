@@ -5,7 +5,8 @@ import { selectReport, getReports, clearReports } from "../actions/reports";
 
 const mapStateToProps = state => ({
   refreshing: state.reports.loading,
-  reports: state.reports.reports
+  reports: state.reports.reports,
+  lastUpdated: state.reports.lastUpdated
 });
 
 const mapDispatchToProps = dispatch => ({
