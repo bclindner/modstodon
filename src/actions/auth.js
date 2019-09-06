@@ -59,7 +59,6 @@ export const authorize = () => async (dispatch, getState) => {
     });
     dispatch(receiveAuthorize(result.accessToken));
   } catch (err) {
-    console.error(err);
     dispatch(oauthError(err));
   }
 };
@@ -78,7 +77,7 @@ export const receiveAuthorize = access_token => ({
 export const OAUTH_ERROR = "auth/OAUTH_ERROR";
 export const oauthError = error => ({
   type: OAUTH_ERROR,
-  error
+  error: error.toString()
 });
 
 export const CLEAR_ERROR = "auth/CLEAR_ERROR";

@@ -37,7 +37,7 @@ export default function auth(state = initialState, action) {
     case OAUTH_ERROR:
       return {
         ...state,
-        error: action.error.toString(),
+        error: action.error,
         loading: false
       };
     case CLEAR_ERROR:
