@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
-import { Headline, Caption, Appbar } from "react-native-paper";
+import { Headline, Caption } from "react-native-paper";
 
 import ReportCard from "../components/ReportCard";
 
@@ -14,6 +14,9 @@ const ReportList = ({
   selectReport,
   navigation
 }) => {
+  useEffect(() => {
+    getReports()
+  }, [])
   const openReport = id => {
     selectReport(id);
     navigation.navigate("Report");
