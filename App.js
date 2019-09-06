@@ -11,7 +11,6 @@ import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import AuthLoading from "./src/containers/AuthLoading";
 import InstanceURLDialog from "./src/containers/InstanceURLDialog";
-import OAuthAuthorize from "./src/containers/OAuthAuthorize";
 import ReportList from "./src/containers/ReportList"
 import Report from "./src/containers/Report"
 
@@ -25,21 +24,11 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AuthNavigator = createStackNavigator(
-  {
-    InstanceURLDialog,
-    OAuthAuthorize
-  },
-  {
-    initialRouteName: "InstanceURLDialog"
-  }
-);
-
 const MainNavigator = createSwitchNavigator(
   {
     AuthLoading,
     App: AppNavigator,
-    Auth: AuthNavigator
+    Auth: InstanceURLDialog
   },
   {
     initialRouteName: "AuthLoading",

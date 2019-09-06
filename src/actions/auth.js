@@ -1,6 +1,11 @@
+import { authorize as _authorize } from "react-native-app-auth";
+import url from "url";
+
 import {
   registerApp as _registerApp,
-  getAccessToken as _getAccessToken
+  getAccessToken as _getAccessToken,
+  OAUTH_SCOPES_ARRAY,
+  OAUTH_REDIRECT_URI
 } from "../utils/API";
 
 /**
@@ -36,31 +41,37 @@ export const receiveAppCredentials = (
   client_secret
 });
 
-export const getAccessToken = code => async (dispatch, getState) => {
-  dispatch(requestAccessToken());
+export const authorize = () => async (dispatch, getState) => {
+  dispatch(requestAuthorize());
   try {
     const { client_id, client_secret, instanceURL } = getState().auth;
-    const { access_token } = await _getAccessToken(
-      instanceURL,
-      client_id,
-      client_secret,
-      code
-    );
-    dispatch(receiveAccessToken(access_token));
+    const result = await _authorize({
+      clientId: client_id,
+      clientSecret: client_secret,
+      redirectUrl: OAUTH_REDIRECT_URI,
+      scopes: OAUTH_SCOPES_ARRAY,
+      serviceConfiguration: {
+        authorizationEndpoint: url.resolve(instanceURL, '/oauth/authorize'),
+        tokenEndpoint: url.resolve(instanceURL, '/oauth/token')
+      },
+      useNonce: false,
+      usePKCE: false
+    });
+    dispatch(receiveAuthorize(result.accessToken));
   } catch (err) {
-    console.error(err)
+    console.error(err);
     dispatch(oauthError(err));
   }
 };
 
-export const REQUEST_ACCESS_TOKEN = "auth/REQUEST_ACCESS_TOKEN";
-export const requestAccessToken = () => ({
-  type: REQUEST_APP_CREDENTIALS
+export const REQUEST_AUTHORIZE = "auth/REQUEST_AUTHORIZE";
+export const requestAuthorize = () => ({
+  type: REQUEST_AUTHORIZE
 });
 
-export const RECEIVE_ACCESS_TOKEN = "auth/RECEIVE_ACCESS_TOKEN";
-export const receiveAccessToken = access_token => ({
-  type: RECEIVE_ACCESS_TOKEN,
+export const RECEIVE_AUTHORIZE = "auth/RECEIVE_AUTHORIZE";
+export const receiveAuthorize = access_token => ({
+  type: RECEIVE_AUTHORIZE,
   access_token
 });
 

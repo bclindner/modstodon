@@ -11,9 +11,9 @@ Modstodon is a React Native application. Partly to push to both platforms, but m
   * `redux-thunk` is used for handling API actions in Redux.
 * `react-native-paper` is used for almost all of the UI.
   * `react-native-htmlview` is used to render HTML posts.
-  * `react-native-webview` is used for the OAuth authorization screen, which requires a login through the Web frontend.
   * `react-native-vector-icons` is used for the occasional icon or two, as required by `react-native-paper` when you want to use icons in their components.
 * `react-navigation` is used to more elegantly handle routing in the app.
+* `react-native-app-auth` is used for handling OAuth authorization.
 * `axios` is used to make API requests.
   * `url` is used to resolve API URLs.
   * `querystring` is used to safely generate query string parameters.

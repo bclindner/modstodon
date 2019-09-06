@@ -5,19 +5,34 @@ import { Paragraph, TextInput, Button, Headline } from "react-native-paper";
 const urlRegex = /^https:\/\/[A-Za-z0-9\-]+\.[A-Za-z]{2,}\/?$/;
 const urlValid = url => urlRegex.test(url);
 
-export default InstanceURLDialog = ({ registerApp, navigation }) => {
+export default InstanceURLDialog = ({
+  registerApp,
+  authorize,
+  hasAppCreds,
+  hasToken,
+  navigation
+}) => {
   const [valid, setValid] = useState(false);
   const [instanceURL, setInstanceURL] = useState("");
   useEffect(() => {
     setValid(urlValid(instanceURL));
   }, [instanceURL]);
+  // Authorize if app credentials have been received
+  useEffect(() => {
+    if (hasAppCreds) {
+      authorize();
+    }
+  }, [hasAppCreds]);
+  // Navigate to the app proper if authenticated
+  useEffect(() => {
+    if (hasToken) {
+      navigation.navigate("App");
+    }
+  }, [hasToken]);
 
   login = () => {
     if (urlValid(instanceURL)) {
       registerApp(instanceURL);
-      navigation.navigate("OAuthAuthorize", {
-        instanceURL
-      });
     }
   };
   return (
