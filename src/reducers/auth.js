@@ -1,8 +1,8 @@
 import {
   REQUEST_APP_CREDENTIALS,
   RECEIVE_APP_CREDENTIALS,
-  REQUEST_ACCESS_TOKEN,
-  RECEIVE_ACCESS_TOKEN,
+  REQUEST_AUTHORIZE,
+  RECEIVE_AUTHORIZE,
   OAUTH_ERROR,
   CLEAR_ERROR
 } from "../actions/auth";
@@ -27,7 +27,7 @@ export default function auth(state = initialState, action) {
         error: "",
         loading: false
       };
-    case RECEIVE_ACCESS_TOKEN:
+    case RECEIVE_AUTHORIZE:
       return {
         ...state,
         access_token: action.access_token,
@@ -37,7 +37,7 @@ export default function auth(state = initialState, action) {
     case OAUTH_ERROR:
       return {
         ...state,
-        error: action.error.toString(),
+        error: action.error,
         loading: false
       };
     case CLEAR_ERROR:
@@ -46,7 +46,7 @@ export default function auth(state = initialState, action) {
         error: ""
       };
     case REQUEST_APP_CREDENTIALS:
-    case REQUEST_ACCESS_TOKEN:
+    case REQUEST_AUTHORIZE:
       return {
         ...state,
         loading: true

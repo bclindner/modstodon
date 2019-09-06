@@ -22,8 +22,8 @@ const store = createStore(reducers, {}, enhancer);
 
 export const persistor = persistStore(store)
 
-export default store;
-
 store.subscribe(() => {
-  console.log("state", store.getState())
+  console.log(store.getState())
 })
+
+export default store;
