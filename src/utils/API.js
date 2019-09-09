@@ -6,6 +6,18 @@ export const OAUTH_REDIRECT_URI = "com.bclindner.modstodon://oauth";
 export const OAUTH_SCOPES = ['admin:read', 'admin:write'];
 export const OAUTH_WEBSITE = "https://github.com/bclindner/modstodon";
 
+export const appAuthConfig = (instanceURL, clientId, clientSecret) => ({
+      clientId,
+      clientSecret,
+      redirectUrl: OAUTH_REDIRECT_URI,
+      scopes: OAUTH_SCOPES,
+      serviceConfiguration: {
+        authorizationEndpoint: url.resolve(instanceURL, '/oauth/authorize'),
+        tokenEndpoint: url.resolve(instanceURL, '/oauth/token'),
+        revocationEndpoint: url.resolve(instanceURL, '/oauth/revoke')
+      }
+})
+
 export const registerApp = async instanceURL =>
   (await axios.post(url.resolve(instanceURL, "/api/v1/apps"), {
     client_name: OAUTH_CLIENT_NAME,

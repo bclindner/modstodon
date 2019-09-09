@@ -1,11 +1,12 @@
-import { authorize as _authorize } from "react-native-app-auth";
-import url from "url";
+import {
+  authorize as _authorize,
+  revoke as _revoke
+} from "react-native-app-auth";
 
 import {
   registerApp as _registerApp,
   getAccessToken as _getAccessToken,
-  OAUTH_SCOPES,
-  OAUTH_REDIRECT_URI
+  appAuthConfig
 } from "../utils/API";
 
 /**
@@ -45,20 +46,12 @@ export const authorize = () => async (dispatch, getState) => {
   dispatch(requestAuthorize());
   try {
     const { client_id, client_secret, instanceURL } = getState().auth;
-    const result = await _authorize({
-      clientId: client_id,
-      clientSecret: client_secret,
-      redirectUrl: OAUTH_REDIRECT_URI,
-      scopes: OAUTH_SCOPES,
-      serviceConfiguration: {
-        authorizationEndpoint: url.resolve(instanceURL, '/oauth/authorize'),
-        tokenEndpoint: url.resolve(instanceURL, '/oauth/token')
-      },
-      useNonce: false,
-      usePKCE: false
-    });
+    const result = await _authorize(
+      appAuthConfig(instanceURL, client_id, client_secret)
+    );
     dispatch(receiveAuthorize(result.accessToken));
   } catch (err) {
+    console.error(err);
     dispatch(oauthError(err));
   }
 };
@@ -72,6 +65,28 @@ export const RECEIVE_AUTHORIZE = "auth/RECEIVE_AUTHORIZE";
 export const receiveAuthorize = access_token => ({
   type: RECEIVE_AUTHORIZE,
   access_token
+});
+
+export const revoke = () => async (dispatch, getState) => {
+  dispatch(requestRevoke());
+  try {
+    const { client_id, client_secret, instanceURL } = getState().auth;
+    await _revoke(appAuthConfig(instanceURL, client_id, client_secret));
+    dispatch(receiveRevoke());
+  } catch (err) {
+    console.error(err);
+    dispatch(oauthError(err));
+  }
+};
+
+export const REQUEST_REVOKE = "auth/REQUEST_REVOKE";
+export const requestRevoke = () => ({
+  type: REQUEST_REVOKE
+});
+
+export const RECEIVE_REVOKE = "auth/RECEIVE_REVOKE";
+export const receiveRevoke = () => ({
+  type: RECEIVE_REVOKE
 });
 
 export const OAUTH_ERROR = "auth/OAUTH_ERROR";
