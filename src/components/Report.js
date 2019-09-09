@@ -41,7 +41,7 @@ export default class Report extends React.Component {
           actionName: "warn",
           message: true,
           onConfirm: msg =>
-            this.props.performAction(
+            this.performAction(
               "none",
               msg
             )
@@ -53,7 +53,7 @@ export default class Report extends React.Component {
           actionName: "disable",
           message: false,
           onConfirm: () =>
-            this.props.performAction(
+            this.performAction(
               "disable"
             )
         };
@@ -89,7 +89,7 @@ export default class Report extends React.Component {
   };
 
   performAction = async (type, text, sendEmailNotification) => {
-    await performAction(
+    await this.props.performAction(
       this.props.report.target_account.account.id,
       type,
       this.props.report.id,
