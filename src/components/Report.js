@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, Linking } from "react-native";
 import {
   Card,
   Paragraph,
@@ -40,11 +40,7 @@ export default class Report extends React.Component {
           visible: true,
           actionName: "warn",
           message: true,
-          onConfirm: msg =>
-            this.performAction(
-              "none",
-              msg
-            )
+          onConfirm: msg => this.performAction("none", msg)
         };
         break;
       case "disable":
@@ -52,10 +48,7 @@ export default class Report extends React.Component {
           visible: true,
           actionName: "disable",
           message: false,
-          onConfirm: () =>
-            this.performAction(
-              "disable"
-            )
+          onConfirm: () => this.performAction("disable")
         };
         break;
       case "silence":
@@ -63,10 +56,7 @@ export default class Report extends React.Component {
           visible: true,
           actionName: "silence",
           message: false,
-          onConfirm: () =>
-            this.performAction(
-              "silence"
-            )
+          onConfirm: () => this.performAction("silence")
         };
         break;
       case "suspend":
@@ -74,11 +64,7 @@ export default class Report extends React.Component {
           visible: true,
           actionName: "suspend",
           message: true,
-          onConfirm: msg =>
-            this.performAction(
-              "suspend",
-              msg
-            )
+          onConfirm: msg => this.performAction("suspend", msg)
         };
         break;
       default:
@@ -113,12 +99,26 @@ export default class Report extends React.Component {
             <DataTable.Row>
               <DataTable.Title>Reported account</DataTable.Title>
               <DataTable.Cell>
-                @{report.target_account.account.acct}
+                <Paragraph
+                  onPress={() =>
+                    Linking.openURL(report.target_account.account.url)
+                  }
+                  style={styles.link}
+                >
+                  @{report.target_account.account.acct}
+                </Paragraph>
               </DataTable.Cell>
             </DataTable.Row>
             <DataTable.Row>
               <DataTable.Title>Reported by</DataTable.Title>
-              <DataTable.Cell>@{report.account.account.acct}</DataTable.Cell>
+              <DataTable.Cell>
+                <Paragraph
+                  onPress={() => Linking.openURL(report.account.account.url)}
+                  style={styles.link}
+                >
+                  @{report.account.account.acct}
+                </Paragraph>
+              </DataTable.Cell>
             </DataTable.Row>
             <DataTable.Row>
               <DataTable.Title>Status</DataTable.Title>
@@ -197,5 +197,9 @@ const styles = StyleSheet.create({
   reportAction: {
     marginTop: 4,
     marginBottom: 4
+  },
+  link: {
+    color: "#0000FF",
+    textDecorationLine: "underline"
   }
 });
