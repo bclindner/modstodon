@@ -3,17 +3,14 @@ import url from "url";
 
 export const OAUTH_CLIENT_NAME = "Modstodon";
 export const OAUTH_REDIRECT_URI = "com.bclindner.modstodon://oauth";
-// Mastodon needs these as a string...
-export const OAUTH_SCOPES = "admin:read admin:write";
-// ...and AppAuth needs this as an array.
-export const OAUTH_SCOPES_ARRAY = ['admin:read', 'admin:write'];
+export const OAUTH_SCOPES = ['admin:read', 'admin:write'];
 export const OAUTH_WEBSITE = "https://github.com/bclindner/modstodon";
 
 export const registerApp = async instanceURL =>
   (await axios.post(url.resolve(instanceURL, "/api/v1/apps"), {
     client_name: OAUTH_CLIENT_NAME,
     redirect_uris: OAUTH_REDIRECT_URI,
-    scopes: OAUTH_SCOPES,
+    scopes: OAUTH_SCOPES.join(" "),
     webiste: OAUTH_WEBSITE
   })).data;
 
@@ -28,7 +25,7 @@ export const getReports = async (
   limit = 10,
   resolved
 ) =>
-  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports"), {
+  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports?resolved"), {
     params: {
       resolved,
       max_id,

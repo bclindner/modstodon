@@ -4,7 +4,7 @@ import url from "url";
 import {
   registerApp as _registerApp,
   getAccessToken as _getAccessToken,
-  OAUTH_SCOPES_ARRAY,
+  OAUTH_SCOPES,
   OAUTH_REDIRECT_URI
 } from "../utils/API";
 
@@ -49,7 +49,7 @@ export const authorize = () => async (dispatch, getState) => {
       clientId: client_id,
       clientSecret: client_secret,
       redirectUrl: OAUTH_REDIRECT_URI,
-      scopes: OAUTH_SCOPES_ARRAY,
+      scopes: OAUTH_SCOPES,
       serviceConfiguration: {
         authorizationEndpoint: url.resolve(instanceURL, '/oauth/authorize'),
         tokenEndpoint: url.resolve(instanceURL, '/oauth/token')
