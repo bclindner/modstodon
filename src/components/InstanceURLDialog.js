@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Linking } from "react-native";
-import { Portal, Dialog, Paragraph, TextInput, Button, Headline } from "react-native-paper";
+import {
+  Portal,
+  Dialog,
+  Paragraph,
+  TextInput,
+  Button,
+  Headline
+} from "react-native-paper";
 import { parse as parseURL } from "url"; // url
 import {
   MALICIOUS_INSTANCE_REDIRECT_URL,
@@ -85,9 +92,7 @@ export default InstanceURLDialog = ({
     <KeyboardAvoidingView style={styles.root} behavior="height">
       <Portal>
         <Dialog visible={errored}>
-          <Dialog.Title>
-            Error
-          </Dialog.Title>
+          <Dialog.Title>Error</Dialog.Title>
           <Dialog.Content>
             <Paragraph>Something broke. Hit OK to clear the error.</Paragraph>
           </Dialog.Content>

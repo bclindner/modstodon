@@ -7,7 +7,7 @@ import {
   SELECT_REPORT,
   CLEAR_REPORTS
 } from "../actions/reports";
-import moment from 'moment';
+import moment from "moment";
 
 const initialState = {
   reports: [],
@@ -72,16 +72,14 @@ export default function reports(state = initialState, action) {
 }
 
 const sortReportsById = (a, b) => {
-            if (a.id < b.id) {
-              return 1;
-            } else if (a.id > b.id) {
-              return -1;
-            } else {
-              console.warn(
-                `Duplicate report with ID ${
-                  a.id
-                } detected. This shouldn't be possible...`
-              );
-              return 0;
-            }
-}
+  if (a.id < b.id) {
+    return 1;
+  } else if (a.id > b.id) {
+    return -1;
+  } else {
+    console.warn(
+      `Duplicate report with ID ${a.id} detected. This shouldn't be possible...`
+    );
+    return 0;
+  }
+};

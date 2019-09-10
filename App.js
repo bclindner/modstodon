@@ -11,8 +11,8 @@ import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import AuthLoading from "./src/containers/AuthLoading";
 import InstanceURLDialog from "./src/containers/InstanceURLDialog";
-import ReportList from "./src/containers/ReportList"
-import Report from "./src/containers/Report"
+import ReportList from "./src/containers/ReportList";
+import Report from "./src/containers/Report";
 
 const AppNavigator = createStackNavigator(
   {

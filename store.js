@@ -2,14 +2,14 @@ import { combineReducers, applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import auth from "./src/reducers/auth";
 import reports from "./src/reducers/reports";
-import AsyncStorage from '@react-native-community/async-storage'
-import { persistCombineReducers, persistStore } from 'redux-persist'
+import AsyncStorage from "@react-native-community/async-storage";
+import { persistCombineReducers, persistStore } from "redux-persist";
 
 const persistConfig = {
-  key: 'auth',
-  blacklist: ['reports'],
-  storage: AsyncStorage,
-}
+  key: "auth",
+  blacklist: ["reports"],
+  storage: AsyncStorage
+};
 
 const reducers = persistCombineReducers(persistConfig, {
   auth,
@@ -20,10 +20,10 @@ const enhancer = applyMiddleware(thunk);
 
 const store = createStore(reducers, {}, enhancer);
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 store.subscribe(() => {
-  console.log(store.getState())
-})
+  console.log(store.getState());
+});
 
 export default store;

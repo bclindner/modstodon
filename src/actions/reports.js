@@ -70,11 +70,11 @@ export const REQUEST_ACTION = "reports/REQUEST_ACTION";
 export const requestAction = () => ({
   type: REQUEST_ACTION
 });
-export const ACTION_ERROR = "reports/ACTION_ERROR"
+export const ACTION_ERROR = "reports/ACTION_ERROR";
 export const actionError = error => ({
   type: ACTION_ERROR,
   error
-})
+});
 
 export const performAction = (
   account_id,

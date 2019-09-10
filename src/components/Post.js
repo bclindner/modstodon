@@ -44,7 +44,7 @@ export default class Post extends React.Component {
             <View>
               <Paragraph>Attachments:</Paragraph>
               {data.media_attachments.map(att => (
-                <Caption key={"attachment-"+att.id}>
+                <Caption key={"attachment-" + att.id}>
                   Attachment ({att.type}):{" "}
                   <Text
                     style={styles.link}

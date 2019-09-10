@@ -9,9 +9,7 @@ import {
   appAuthConfig
 } from "../utils/API";
 
-import {
-  clearReports
-} from "./reports"
+import { clearReports } from "./reports";
 
 /**
  * Register an app with Modstodon, removing the previous signed-in instance.
@@ -74,11 +72,16 @@ export const receiveAuthorize = access_token => ({
 export const revoke = () => async (dispatch, getState) => {
   dispatch(requestRevoke());
   try {
-    const { client_id, client_secret, instanceURL, access_token } = getState().auth;
+    const {
+      client_id,
+      client_secret,
+      instanceURL,
+      access_token
+    } = getState().auth;
     await _revoke(appAuthConfig(instanceURL, client_id, client_secret), {
       tokenToRevoke: access_token
     });
-    dispatch(clearReports())
+    dispatch(clearReports());
     dispatch(receiveRevoke());
   } catch (err) {
     console.error(err);
