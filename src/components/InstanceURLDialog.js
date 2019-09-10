@@ -110,6 +110,8 @@ export default InstanceURLDialog = ({
           error={!valid}
           onChangeText={setInstanceURL}
           onSubmitEditing={login}
+          textContentType="URL"
+          keyboardType="url"
         />
         <Button onPress={login}>Authenticate</Button>
       </View>
