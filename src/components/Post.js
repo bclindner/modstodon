@@ -1,9 +1,9 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Linking } from "react-native";
 import {
   Card,
   Paragraph,
-  Button,
+  // Button,
   Caption,
   ToggleButton
 } from "react-native-paper";
@@ -40,6 +40,24 @@ export default class Post extends React.Component {
             {moment(data.created_at, moment.ISO_8601).fromNow()} -{" "}
             {data.visibility}
           </Caption>
+          {data.media_attachments.length > 0 ? (
+            <View>
+              <Paragraph>Attachments:</Paragraph>
+              {data.media_attachments.map(att => (
+                <Caption>
+                  Attachment ({att.type}):{" "}
+                  <Text
+                    style={styles.link}
+                    onPress={() => Linking.openURL(att.url)}
+                  >
+                    [link]
+                  </Text>
+                </Caption>
+              ))}
+            </View>
+          ) : (
+            <Caption>No attachments</Caption>
+          )}
         </Card.Content>
         {/*
          */}
@@ -81,5 +99,9 @@ const styles = StyleSheet.create({
   },
   cw: {
     fontWeight: "bold"
+  },
+  link: {
+    color: "#0000FF",
+    textDecorationLine: "underline"
   }
 });
