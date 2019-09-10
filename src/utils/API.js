@@ -15,7 +15,9 @@ export const appAuthConfig = (instanceURL, clientId, clientSecret) => ({
         authorizationEndpoint: url.resolve(instanceURL, '/oauth/authorize'),
         tokenEndpoint: url.resolve(instanceURL, '/oauth/token'),
         revocationEndpoint: url.resolve(instanceURL, '/oauth/revoke')
-      }
+      },
+      useNonce: false,
+      usePKCE: false
 })
 
 export const registerApp = async instanceURL =>
@@ -37,7 +39,7 @@ export const getReports = async (
   limit = 10,
   resolved
 ) =>
-  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports?resolved"), {
+  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports"), {
     params: {
       resolved,
       max_id,

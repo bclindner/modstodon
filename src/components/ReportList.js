@@ -18,13 +18,16 @@ const ReportList = ({
   // Get reports and set navigation props when mounted
   useEffect(() => {
     getReports()
-    navigation.setParams({"logout": logout})
+    navigation.setParams({"logout": () => setModalActive(true)})
   }, [])
-  const [modalActive, setModalActive] = useState(true) 
+  const [modalActive, setModalActive] = useState(false) 
   const openReport = id => {
     selectReport(id);
     navigation.navigate("Report");
   };
+  const _logout = () => {
+    logout().then(navigation.navigate("AuthLoading"))
+  }
   const lastUpdatedMoment = moment(lastUpdated)
   return (
     <>
@@ -71,7 +74,7 @@ const ReportList = ({
           <Button
             mode="contained"
             style={styles.button}
-            onPress={() => logout()}
+            onPress={() => _logout()}
           >
             Log Out
           </Button>
