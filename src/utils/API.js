@@ -25,7 +25,7 @@ export const getReports = async (
   limit = 10,
   resolved
 ) =>
-  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports?resolved"), {
+  (await axios.get(url.resolve(instanceURL, "/api/v1/admin/reports"), {
     params: {
       resolved,
       max_id,
