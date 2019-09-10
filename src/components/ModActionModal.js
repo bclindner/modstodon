@@ -28,7 +28,7 @@ const ModActionModal = ({
                 mode="outlined"
                 multiline
                 numberOfLines={4}
-                onChangeText={useState}
+                onChangeText={setValue}
               />
             </>
           ) : (
