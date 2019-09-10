@@ -35,6 +35,9 @@ export default class Report extends React.Component {
   stageAction = type => {
     let dialog = {};
     switch (type) {
+      case "resolve":
+        this.performAction("none")
+        break;
       case "warn":
         dialog = {
           visible: true,
@@ -143,6 +146,13 @@ export default class Report extends React.Component {
           <View style={styles.reportActions}>
             {!report.action_taken && (
               <>
+                <Button
+                  mode="contained"
+                  style={styles.reportAction}
+                  onPress={() => this.stageAction("resolve")}
+                >
+                  Mark As Resolved
+                </Button>
                 <Button
                   mode="contained"
                   style={styles.reportAction}
