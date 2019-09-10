@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Linking } from "react-native";
+import { StyleSheet, Linking, View, Text } from "react-native";
 import {
   Card,
   Paragraph,
@@ -44,7 +44,7 @@ export default class Post extends React.Component {
             <View>
               <Paragraph>Attachments:</Paragraph>
               {data.media_attachments.map(att => (
-                <Caption>
+                <Caption key={"attachment-"+att.id}>
                   Attachment ({att.type}):{" "}
                   <Text
                     style={styles.link}
