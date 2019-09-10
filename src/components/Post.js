@@ -33,10 +33,7 @@ export default class Post extends React.Component {
       <Card elevation={2} style={styles.card}>
         <Card.Content>
           <Paragraph styles={styles.cw}>
-          {data.spoiler_text && (
-            `CW: ${data.spoiler_text}`
-          )}
-
+            {data.spoiler_text && `CW: ${data.spoiler_text}`}
           </Paragraph>
           {showCW && <HTMLView value={data.content} />}
           <Caption>
@@ -44,13 +41,20 @@ export default class Post extends React.Component {
             {data.visibility}
           </Caption>
         </Card.Content>
+        {/*
+         */}
         <Card.Actions>
-          <ToggleButton
-            icon={showCW ? "visibility" : "visibility-off"}
-            value={showCW ? "visibility" : "visibility-off"}
-            status={showCW}
-            onPress={this.toggleCW}
-          />
+          {// For some reason I have to use a ternary here and specify null to get this to not throw an error.
+          data.spoiler_text ? (
+            <ToggleButton
+              icon={showCW ? "visibility" : "visibility-off"}
+              value={showCW ? "visibility" : "visibility-off"}
+              status={showCW}
+              onPress={this.toggleCW}
+            />
+          ) : null}
+          {/*
+          This is not usable right now
           <Button mode="outlined" style={styles.cardButton} disabled>
             Mark
           </Button>
@@ -60,6 +64,7 @@ export default class Post extends React.Component {
           <Button mode="outlined" style={styles.cardButton} disabled>
             Delete
           </Button>
+          */}
         </Card.Actions>
       </Card>
     );
