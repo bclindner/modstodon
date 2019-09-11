@@ -15,8 +15,9 @@ import ModActionModal from "../components/ModActionModal";
 
 const defaultModDialogProps = {
   visible: false,
+  message: "...",
   actionName: "...",
-  message: false,
+  allowInput: false,
   onConfirm: () => null
 };
 
@@ -36,37 +37,47 @@ export default class Report extends React.Component {
     let dialog = {};
     switch (type) {
       case "resolve":
-        this.performAction("none")
+        dialog = {
+          visible: true,
+          message: "Are you sure you want to mark this report as resolved?",
+          actionName: "",
+          allowInput: true,
+          onConfirm: msg => this.performAction("none")
+        };
         break;
       case "warn":
         dialog = {
           visible: true,
+          message: "",
           actionName: "warn",
-          message: true,
+          allowInput: true,
           onConfirm: msg => this.performAction("none", msg)
         };
         break;
       case "disable":
         dialog = {
           visible: true,
+          message: "",
           actionName: "disable",
-          message: false,
+          allowInput: false,
           onConfirm: () => this.performAction("disable")
         };
         break;
       case "silence":
         dialog = {
           visible: true,
+          message: "",
           actionName: "silence",
-          message: false,
+          allowInput: false,
           onConfirm: () => this.performAction("silence")
         };
         break;
       case "suspend":
         dialog = {
           visible: true,
+          message: "",
           actionName: "suspend",
-          message: true,
+          allowInput: true,
           onConfirm: msg => this.performAction("suspend", msg)
         };
         break;

@@ -12,6 +12,7 @@ const ModActionModal = ({
   visible,
   actionName,
   message,
+  allowInput,
   onDismiss,
   onConfirm
 }) => {
@@ -21,7 +22,7 @@ const ModActionModal = ({
       <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>Confirm Action</Dialog.Title>
         <Dialog.Content>
-          {message ? (
+          {allowInput ? (
             <>
               <Paragraph>Input a message to the user, if desired:</Paragraph>
               <TextInput
@@ -32,7 +33,9 @@ const ModActionModal = ({
               />
             </>
           ) : (
-            <Paragraph>Do you wish to {actionName} this user? </Paragraph>
+            <Paragraph>
+              {message ? message : `Do you wish to ${actionName} this user?`}
+            </Paragraph>
           )}
         </Dialog.Content>
         <Dialog.Actions>
@@ -54,7 +57,8 @@ const ModActionModal = ({
 ModActionModal.defaultProps = {
   visible: false,
   actionName: "...",
-  message: false,
+  message: "",
+  allowInput: false,
   onDismiss: () => false,
   onConfirm: message => false || message // lol
 };
